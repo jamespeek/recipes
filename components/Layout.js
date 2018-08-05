@@ -16,10 +16,6 @@ const Layout = props => (
         color: black;
         text-decoration: none;
       }
-      a:hover {
-        color: black;
-        text-decoration: underline;
-      }
     `}</style>
     <style jsx>{`
       .layout {

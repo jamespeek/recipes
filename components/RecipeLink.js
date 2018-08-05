@@ -5,6 +5,11 @@ const RecipeLink = props => (
     <Link as={`/recipe/${props.id}`} href={`/recipe?id=${props.id}`}>
       <a>{props.title}</a>
     </Link>
+    <style jsx>{`
+      a:hover {
+        text-decoration: underline;
+      }
+    `}</style>
   </div>
 );
 

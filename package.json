@@ -11,6 +11,8 @@
     "react-dom": "^16.4.2"
   },
   "scripts": {
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "next start"
   }
 }

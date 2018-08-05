@@ -28,9 +28,9 @@ const Page = ({
 
 Page.getInitialProps = async function(context) {
   const { id } = context.query;
-  const recipe = await fetch(`http://recipes.peek.ws/api/recipes/${id}`)
-    .then(res => res.json())
-    .then(res => res[0]);
+  const recipe = await fetch(`http://recipes.peek.ws/api/recipes/${id}`).then(
+    res => res.json()
+  );
   return { recipe };
 };
 
