@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const RecipeLink = props => (
   <div>
-    <Link href={`/recipe?id=${props.id}&title=${props.title}`}>
+    <Link as={`/recipe/${props.id}`} href={`/recipe?id=${props.id}`}>
       <a>{props.title}</a>
     </Link>
   </div>

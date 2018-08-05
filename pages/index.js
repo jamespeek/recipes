@@ -1,12 +1,9 @@
 import { Component } from "react";
+import fetch from "isomorphic-unfetch";
+
 import Layout from "../components/Layout";
 import RecipeLink from "../components/RecipeLink";
 import TagLink from "../components/TagLink";
-
-const api = "http://recipes.peek.ws/api";
-const added = count => `${api}/recipes/added/${count}`;
-const updated = count => `${api}/recipes/updated/${count}`;
-const tags = `${api}/tags`;
 
 const renderLinks = recipes =>
   recipes.map((recipe, i) => <RecipeLink key={i} {...recipe} />);
@@ -29,37 +26,30 @@ const renderTagCategories = categories => {
   });
 };
 
-class Page extends Component {
-  state = {
-    isLoading: true
+const Page = ({ added, updated, tags }) => (
+  <Layout>
+    <h2>Recently Added</h2>
+    <div>{renderLinks(added)}</div>
+    <h2>Recently Updated</h2>
+    <div>{renderLinks(updated)}</div>
+    <h2>Recipe Tags</h2>
+    <div>{renderTagCategories(tags)}</div>
+  </Layout>
+);
+
+Page.getInitialProps = async function() {
+  const api = "http://recipes.peek.ws/api";
+  const added = await fetch(`${api}/recipes/added/10`).then(res => res.json());
+  const updated = await fetch(`${api}/recipes/updated/10`).then(res =>
+    res.json()
+  );
+  const tags = await fetch(`${api}/tags`).then(res => res.json());
+
+  return {
+    added,
+    updated,
+    tags
   };
-  componentDidMount() {
-    const feeds = [tags, updated(10), added(10)];
-    Promise.all(feeds.map(url => fetch(url)))
-      .then(res => Promise.all(res.map(res => res.json())))
-      .then(([tags, updated, added]) =>
-        this.setState({ isLoading: false, tags, updated, added })
-      );
-  }
-  render() {
-    return <Layout>{this.renderContent()}</Layout>;
-  }
-  renderContent() {
-    if (this.state.isLoading) {
-      return <p>Loading...</p>;
-    }
-    console.log(this.state.tags);
-    return (
-      <div>
-        <h2>Recently Added</h2>
-        <div>{renderLinks(this.state.added)}</div>
-        <h2>Recently Updated</h2>
-        <div>{renderLinks(this.state.updated)}</div>
-        <h2>Recipe Tags</h2>
-        <div>{renderTagCategories(this.state.tags)}</div>
-      </div>
-    );
-  }
-}
+};
 
 export default Page;
