@@ -35,15 +35,11 @@ const Page = ({ added, updated, tags }) => (
   </Layout>
 );
 
-Page.getInitialProps = async function({ req }) {
-  const api = req ? `${req.protocol}://${req.get("Host")}/api` : "/api";
-  console.log(api);
-  const added = await fetch(`${api}/recipes/added/10`).then(res => res.json());
-  const updated = await fetch(`${api}/recipes/updated/10`).then(res =>
-    res.json()
-  );
-  const tags = await fetch(`${api}/tags`).then(res => res.json());
-
+Page.getInitialProps = async ({ req }) => {
+  const api = process.env.API;
+  const urls = ["recipes/added/10", "recipes/updated/10", "tags"];
+  const reqs = urls.map(url => fetch(`${api}/${url}`).then(res => res.json()));
+  const [added, updated, tags] = await Promise.all(reqs);
   return {
     added,
     updated,

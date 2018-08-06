@@ -31,7 +31,7 @@ const Page = ({ title, name, added, tags, ingredients, method }) => {
 };
 
 Page.getInitialProps = async ({ req, query: { id } }) => {
-  const api = req ? `${req.protocol}://${req.get("Host")}/api` : "/api";
+  const api = process.env.API;
   return await fetch(`${api}/recipes/${id}`).then(res => res.json());
 };
 

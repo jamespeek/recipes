@@ -1,7 +1,20 @@
+import Router from "next/router";
+import Head from "next/head";
+import NProgress from "nprogress";
+
 import Navigation from "./Navigation";
+
+Router.onRouteChangeStart = url => {
+  NProgress.start();
+};
+Router.onRouteChangeComplete = () => NProgress.done();
+Router.onRouteChangeError = () => NProgress.done();
 
 const Layout = props => (
   <div className="layout">
+    <Head>
+      <link rel="stylesheet" type="text/css" href="/static/nprogress.css" />
+    </Head>
     <Navigation />
     <div className="content">{props.children}</div>
     <style jsx global>{`
