@@ -1,9 +1,9 @@
 import Link from "next/link";
 
-const RecipeLink = props => (
+const RecipeLink = ({ id, title }) => (
   <div>
-    <Link as={`/recipe/${props.id}`} href={`/recipe?id=${props.id}`}>
-      <a dangerouslySetInnerHTML={{ __html: props.title }} />
+    <Link as={`/recipe/${id}`} href={`/recipe?id=${id}`}>
+      <a dangerouslySetInnerHTML={{ __html: title }} />
     </Link>
     <style jsx>{`
       a:hover {

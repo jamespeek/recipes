@@ -9,9 +9,8 @@ const renderLinks = recipes =>
   recipes.map((recipe, i) => <RecipeLink key={i} {...recipe} />);
 
 const renderTags = tags => {
-  return Object.keys(tags).map((tag, i) => (
-    <TagLink key={i} tag={tag} count={tags[tag]} />
-  ));
+  console.log(tags);
+  return Object.values(tags).map((tag, i) => <TagLink key={i} {...tag} />);
 };
 
 const renderTagCategories = categories => {

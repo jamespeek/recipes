@@ -5,12 +5,16 @@ import fetch from "isomorphic-unfetch";
 import Layout from "../components/Layout.js";
 import TagLink from "../components/TagLink";
 
-const renderTags = tags =>
-  tags && tags.split(",").map((tag, i) => <TagLink key={i} tag={tag} />);
+const renderTags = tags => tags.map((tag, i) => <TagLink key={i} {...tag} />);
 
-const Page = ({
-  recipe: { title, name, added, tags, ingredients, method }
-}) => {
+const parse = html => {
+  const p = /<p>(.+?)<\/p>/gi;
+  const matches = html.match(p);
+  console.log(matches.map(line => line.substring(3, line.length - 4)));
+};
+
+const Page = ({ title, name, added, tags, ingredients, method }) => {
+  // parse(ingredients);
   return (
     <Layout>
       <div>
@@ -26,12 +30,9 @@ const Page = ({
   );
 };
 
-Page.getInitialProps = async function(context) {
-  const { id } = context.query;
-  const recipe = await fetch(`http://recipes.peek.ws/api/recipes/${id}`).then(
-    res => res.json()
+Page.getInitialProps = async ({ query: { id } }) =>
+  await fetch(`http://recipes.peek.ws/api/recipes/${id}`).then(res =>
+    res.json()
   );
-  return { recipe };
-};
 
 export default withRouter(Page);

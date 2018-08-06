@@ -1,12 +1,12 @@
 import { Fragment } from "react";
 import Link from "next/link";
 
-const slugFromTag = title => title.split(" ").join("-");
-
-const TagLink = ({ tag, count }) => (
+const TagLink = ({ id, name, recipes }) => (
   <Fragment>
-    <Link as={`/tag/${slugFromTag(tag)}`} href={`/tag/?id=${tag}`}>
-      <a>{tag.split(" ").join("\u00A0") + (count ? `\u00A0${count}` : "")}</a>
+    <Link as={`/tag/${id}`} href={`/tag/?id=${id}`}>
+      <a>
+        {name.split(" ").join("\u00A0") + (recipes ? `\u00A0${recipes}` : "")}
+      </a>
     </Link>
     <style jsx>{`
       a {
