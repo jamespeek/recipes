@@ -1,5 +1,6 @@
 const express = require("express");
 const next = require("next");
+const proxy = require("http-proxy-middleware");
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -21,6 +22,11 @@ app
       const queryParams = { id: req.params.id };
       app.render(req, res, actualPage, queryParams);
     });
+
+    server.use(
+      "/api",
+      proxy({ target: "http://recipes.peek.ws", changeOrigin: true })
+    );
 
     server.get("*", (req, res) => {
       return handle(req, res);

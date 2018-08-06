@@ -9,7 +9,6 @@ const renderLinks = recipes =>
   recipes.map((recipe, i) => <RecipeLink key={i} {...recipe} />);
 
 const renderTags = tags => {
-  console.log(tags);
   return Object.values(tags).map((tag, i) => <TagLink key={i} {...tag} />);
 };
 
@@ -36,8 +35,9 @@ const Page = ({ added, updated, tags }) => (
   </Layout>
 );
 
-Page.getInitialProps = async function() {
-  const api = "http://recipes.peek.ws/api";
+Page.getInitialProps = async function({ req }) {
+  const api = req ? `${req.protocol}://${req.get("Host")}/api` : "/api";
+  console.log(api);
   const added = await fetch(`${api}/recipes/added/10`).then(res => res.json());
   const updated = await fetch(`${api}/recipes/updated/10`).then(res =>
     res.json()

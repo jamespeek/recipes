@@ -30,9 +30,9 @@ const Page = ({ title, name, added, tags, ingredients, method }) => {
   );
 };
 
-Page.getInitialProps = async ({ query: { id } }) =>
-  await fetch(`http://recipes.peek.ws/api/recipes/${id}`).then(res =>
-    res.json()
-  );
+Page.getInitialProps = async ({ req, query: { id } }) => {
+  const api = req ? `${req.protocol}://${req.get("Host")}/api` : "/api";
+  return await fetch(`${api}/recipes/${id}`).then(res => res.json());
+};
 
 export default withRouter(Page);
