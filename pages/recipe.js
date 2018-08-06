@@ -14,7 +14,7 @@ const Page = ({
   return (
     <Layout>
       <div>
-        <h1>{title}</h1>
+        <h1 dangerouslySetInnerHTML={{ __html: title }} />
         <div>
           Added by {name} on {added}
         </div>
